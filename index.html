@@ -89,6 +89,16 @@
 
       map.add(usaeduLayer);
 
+
+      // Define a new FeatureLayer for US Airports
+      const airportsLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/US_Airports3/FeatureServer"
+      });
+
+      // Add the airportsLayer to the map
+      map.add(airportsLayer);
+
+
       // Define the coordinates of the polygon
       const polygon = {
         type: "polygon",
