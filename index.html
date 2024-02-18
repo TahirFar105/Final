@@ -77,18 +77,17 @@
       // Define a pop-up for usaeduLayer
       const popupEduusa = {
         "title": "EDUs",
-        "content": "<b>Name:</b> {INSTNM}<br><b>Total Enrollment:</b> {INSTSIZE}<br>"
+        "content": "<b>Name:</b> {INSTNM}<br><b>Total Enrollment:</b> {INSTSIZE}<br><b>Chief Administrator:</b> {CHFNM}<br><b>General Telephone:</b> {GENTELE}<br><b>Website:</b> {WEBADDR}<br>"
       }
-
 
       const usaeduLayer = new FeatureLayer({
         url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer", //get URL from AGOL Item Page
         //adding the popup here
-        outFields: ["INSTNM","INSTSIZE"],
+        outFields: ["INSTNM","INSTSIZE", "CHFNM", "GENTELE", "WEBADDR"],
         popupTemplate: popupEduusa
-        });
-      
-        map.add(usaeduLayer);
+      });
+
+      map.add(usaeduLayer);
 
       // Define the coordinates of the polygon
       const polygon = {
