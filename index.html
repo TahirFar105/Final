@@ -86,17 +86,24 @@
         outFields: ["INSTNM","INSTSIZE", "CHFNM", "GENTELE", "WEBADDR"],
         popupTemplate: popupEduusa
       });
-
       map.add(usaeduLayer);
 
-
+      const airportRenderer = {
+        "type": "simple",
+        "symbol": {
+          "type": "picture-marker",
+          "url": "airplane.png",
+          "width": "18px",
+          "height": "18px"
+        }
+      }
       // Define a new FeatureLayer for US Airports
-      const airportsLayer = new FeatureLayer({
-        url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/US_Airports3/FeatureServer"
-      });
-
+      const airportLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/US_Airports3/FeatureServer",
+          renderer: airportRenderer
+        });
       // Add the airportsLayer to the map
-      map.add(airportsLayer);
+      map.add(airportLayer);
 
 
       // Define the coordinates of the polygon
