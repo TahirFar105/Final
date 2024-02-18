@@ -18,8 +18,10 @@
       "esri/Map",
       "esri/views/MapView",
       "esri/Graphic",  
-      "esri/layers/GraphicsLayer"
-    ], function (esriConfig,Map, MapView,Graphic, GraphicsLayer) {
+      "esri/layers/GraphicsLayer",
+      //adding in the module for the feature layers
+      "esri/layers/FeatureLayer"
+    ], function (esriConfig,Map, MapView,Graphic, GraphicsLayer, FeatureLayer) {
 
       esriConfig.apiKey = "AAPK1c87127d5a0145b2ac638d800774df300U2ATjjIzTdh-RZndDHdofO0OQ7kIq6PdxclVHH3ODEcby6JAS-PSh-PJsIKazL8";
       const map = new Map({
@@ -71,6 +73,22 @@
       });
 
       graphicsLayer.add(pointGraphic); // Add the point graphic to the graphics layer
+
+      // Define a pop-up for usaeduLayer
+      const popupEduusa = {
+        "title": "EDUs",
+        "content": "<b>Name:</b> {INSTNM}<br><b>Total Enrollment:</b> {INSTSIZE}<br>"
+      }
+
+
+      const usaeduLayer = new FeatureLayer({
+        url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer", //get URL from AGOL Item Page
+        //adding the popup here
+        outFields: ["INSTNM","INSTSIZE"],
+        popupTemplate: popupEduusa
+        });
+      
+        map.add(usaeduLayer);
 
       // Define the coordinates of the polygon
       const polygon = {
