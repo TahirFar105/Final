@@ -59,16 +59,18 @@
   <div id="viewDiv"></div>
 
   <script>
-    require([
-      "esri/config",
-      "esri/Map",
-      "esri/views/MapView",
-      "esri/Graphic",
-      "esri/layers/GraphicsLayer",
-      "esri/widgets/Legend",
-      "esri/widgets/Search"
-      // ...other required modules
-    ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, Legend, Search) {
+ require([
+  "esri/config",
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/Graphic",
+  "esri/layers/GraphicsLayer",
+  "esri/layers/FeatureLayer",
+  "esri/widgets/Legend",
+  "esri/widgets/Search",
+  "esri/widgets/BasemapToggle",
+  "esri/widgets/BasemapGallery"
+], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, FeatureLayer, Legend, Search, BasemapToggle, BasemapGallery) {
       
       esriConfig.apiKey = "AAPK1c87127d5a0145b2ac638d800774df300U2ATjjIzTdh-RZndDHdofO0OQ7kIq6PdxclVHH3ODEcby6JAS-PSh-PJsIKazL8";
 
@@ -93,15 +95,51 @@
           // Customize your popup template
         }
       });
+      // ...existing code...
+
       map.add(wildcatLayer);
+
+      var basemapToggle = new BasemapToggle({
+        view: view,
+        nextBasemap: "hybrid"
+      });
+
+      view.ui.add(basemapToggle, "bottom-right");
+
+      var basemapGallery = new BasemapGallery({
+        view: view,
+        source: {
+          query: {
+            title: '"World Basemaps for Developers" AND owner:esri'
+          }
+        }
+      });
+
+      view.ui.add(basemapGallery, {
+        position: "top-right"
+      });
+
+      // Layer list widget
+      var layerList = new LayerList({
+        view: view
+      });
+
+      view.ui.add(layerList, {
+        position: "top-left"
+      });
 
       const wildcatLocations = [
         { species: "Florida Panther", location: "Everglades National Park", longitude: 25.286616, latitude: -80.898651 },
         { species: "Florida Panther", location: "Big Cypress National Preserve", longitude: 25.857596, latitude: -81.033620 },
+        { species: "Florida Panther", location: "Fakahatchee Strand Preserve State Park", longitude: 26.063253, latitude: -81.416313 },
+        { species: "Lynx", location: "Rocky Mountain National Park", longitude: 40.342793, latitude: -105.683639 },
+        { species: "Lynx", location: "Yellowstone National Park", longitude: 44.4280, latitude: -110.5885 },
+        { species: "Lynx", location: "Glacier National Park", longitude: 48.7596, latitude: -113.7870 },
+        { species: "Bobcat", location: "Great Smoky Mountains National Park", longitude: 35.6532, latitude: -83.5070 },
+        { species: "Bobcat", location: "Shenandoah National Park", longitude: 38.2928, latitude: -78.6795 },
+        { species: "Bobcat", location: "Cuyahoga Valley National Park", longitude: 41.2808, latitude: -81.5678 }
         // Add all your locations here...
       ];
-
-      // ...rest of the code...
 
         const simpleMarkerSymbol = {
           type: "simple-marker",
