@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-  <title>Wildcat Map</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Endangered Paws - Wildcats Map</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
   <style>
     html, body, #viewDiv {
       padding: 0;
@@ -11,10 +13,50 @@
       height: 100%;
       width: 100%;
     }
+    .sidebar {
+      width: 250px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 99;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .esri-icon-search::before {
+      content: '\e618';
+    }
   </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div>
+      <label>
+        <input type="checkbox" id="lynxLayerCheckbox" checked>
+        Lynx
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" id="pantherLayerCheckbox" checked>
+        Florida Panther
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" id="bobcatLayerCheckbox" checked>
+        Bobcat
+      </label>
+    </div>
+    <div>
+      <input type="text" id="searchBox" placeholder="Search for places" />
+      <button id="searchButton" class="esri-icon-search"></button>
+    </div>
+    <!-- The legend will be populated by the ArcGIS API based on map layers -->
+    <div id="legendDiv"></div>
+  </div>
 
-  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
-  <script src="https://js.arcgis.com/4.25/"></script>
+  <div id="viewDiv"></div>
 
   <script>
     require([
@@ -23,10 +65,10 @@
       "esri/views/MapView",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-      "esri/layers/FeatureLayer",
-      "esri/widgets/Legend"
+      "esri/widgets/Legend",
+      "esri/widgets/Search"
       // ...other required modules
-    ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, FeatureLayer, Legend){
+    ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, Legend, Search) {
       
       esriConfig.apiKey = "AAPK1c87127d5a0145b2ac638d800774df300U2ATjjIzTdh-RZndDHdofO0OQ7kIq6PdxclVHH3ODEcby6JAS-PSh-PJsIKazL8";
 
@@ -37,12 +79,21 @@
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-95, 37], // center of the US
+        center: [-95, 37], // Center of the US
         zoom: 4
       });
 
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
+
+      const wildcatLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Wildcat_Miderm/FeatureServer", // Replace with your actual feature layer URL
+        outFields: ["*"], // Adjust based on your actual fields
+        popupTemplate: {
+          // Customize your popup template
+        }
+      });
+      map.add(wildcatLayer);
 
       const wildcatLocations = [
         { species: "Florida Panther", location: "Everglades National Park", longitude: 25.286616, latitude: -80.898651 },
@@ -50,12 +101,7 @@
         // Add all your locations here...
       ];
 
-      wildcatLocations.forEach(function(wildcat) {
-        const point = {
-          type: "point",
-          longitude: wildcat.longitude,
-          latitude: wildcat.latitude
-        };
+      // ...rest of the code...
 
         const simpleMarkerSymbol = {
           type: "simple-marker",
@@ -79,45 +125,78 @@
         graphicsLayer.add(pointGraphic);
       });
 
-      // Add the wildcat feature layer
-      const wildcatLayer = new FeatureLayer({
-        url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Wildcat_Miderm/FeatureServer", // Replace with your actual feature layer URL
-        outFields: ["*"], // Adjust based on your actual fields
-        popupTemplate: {
-          // Customize your popup template
-        }
-      });
-      map.add(wildcatLayer);
-
       // Add legend
       var legend = new Legend({
         view: view,
         container: "legendDiv"
       });
 
-      // Region filter event handlers
-      document.querySelectorAll('.regionCheckbox').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          // Construct the filter query
-          let query = [];
-          document.querySelectorAll('.regionCheckbox:checked').forEach(function(checkedBox) {
-            query.push(`"${checkedBox.value}"`); // Assuming your field values are exactly 'West', 'Midwest', etc.
-          });
-          wildcatLayer.definitionExpression = query.length ? `RegionField IN (${query.join(',')})` : "1=1";
-          // Adjust the field name and values to match your actual data schema
-        });
+      // Add search widget
+      var searchWidget = new Search({
+        view: view,
+        container: "searchBox"
       });
 
-      // ...additional JavaScript and functions...
-    });
+      // Layer toggle functionality
+      document.getElementById("lynxLayerCheckbox").addEventListener("change", function(event) {
+        // Toggle the visibility of the lynx layer
+        // You will need to have defined this layer earlier in the code
+      });
+
+            // Layer toggle functionality
+            document.getElementById("lynxLayerCheckbox").addEventListener("change", function(event) {
+        toggleLayerVisibility(event.target.checked, "Lynx");
+      });
+
+      document.getElementById("pantherLayerCheckbox").addEventListener("change", function(event) {
+        toggleLayerVisibility(event.target.checked, "Florida Panther");
+      });
+
+      document.getElementById("bobcatLayerCheckbox").addEventListener("change", function(event) {
+        toggleLayerVisibility(event.target.checked, "Bobcat");
+      });
+
+      // Define the toggleLayerVisibility function
+      function toggleLayerVisibility(isChecked, species) {
+        // Adjust the definitionExpression of the feature layer based on checkbox state
+        const currentExpression = wildcatLayer.definitionExpression || "";
+        let expressions = currentExpression ? currentExpression.split(" OR ") : [];
+        const speciesExpression = `Species = '${species}'`;
+
+        if (isChecked) {
+          // Add the expression for the species if it's not already included
+          if (!expressions.includes(speciesExpression)) {
+            expressions.push(speciesExpression);
+          }
+        } else {
+          // Remove the expression for the species if it exists
+          expressions = expressions.filter(expr => expr !== speciesExpression);
+        }
+
+        wildcatLayer.definitionExpression = expressions.join(" OR ") || "1=1";
+      }
+
+      // Search widget setup
+      var searchWidget = new Search({
+        view: view,
+        container: "searchBox" // Attaches the search widget to the input box
+      });
+
+      // Search button functionality
+      document.getElementById("searchButton").addEventListener("click", function() {
+        searchWidget.search(document.getElementById("searchBox").value);
+      });
+
+      // Legend setup
+      var legend = new Legend({
+        view: view,
+        container: "legendDiv" // Specifies where to place the legend in the HTML
+      });
+
+      // Add the wildcat FeatureLayer to the map
+      map.add(wildcatLayer);
+
+      // ... Any additional JavaScript and functions needed for your app ...
   </script>
-  <style>
-    html, body, #viewDiv {
-      height: 100%; width: 100%; margin: 0; padding: 0;
-    }
-  </style>
-</head>
-<body>
-  <div id="viewDiv"></div>
 </body>
 </html>
