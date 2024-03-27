@@ -163,40 +163,54 @@
 
       const wildcats = [
         {
-          species: "Lynx",
-          location: "Northern US",
-          latitude: 48.6,
-          longitude: -119.7
+        species: "Lynx",
+        location: "Northern US",
+        latitude: 48.6,
+        longitude: -119.7,
+        population: 2000, // Add your data here
+        endangeredLevel: "High", // Add your data here
+        threatLevel: "Severe", // Add your data here
+        funFact: "Lynx are excellent climbers." // Add your data here
         },
         {
-          species: "Florida Panther",
-          location: "Southern US",
-          latitude: 25.3,
-          longitude: -80.9
-        },
-        {
-          species: "Florida Panther",
-          location: "Southern US",
-          latitude: 25.9,
-          longitude: -81
+        species: "Florida Panther",
+        location: "Southern US",
+        latitude: 25.3,
+        longitude: -81,
+        population: 1200,
+        endangeredLevel: "Critical",
+        threatLevel: "High",
+        funFact: "Florida Panthers are the only puma species found east of the Mississippi."
         },
         {
           species: "Bobcat",
           location: "Central US",
           latitude: 25.3,
-          longitude: -80.9
+          longitude: -80.9,
+          population: 5000,
+          endangeredLevel: "Low",
+        threatLevel: "Low",
+        funFact: "Bobcats are named for their short, bobbed tail."
         },
         {
           species: "Bobcat",
           location: "Central US",
           latitude: 32.7,
-          longitude: -112.6
+          longitude: -112.6,
+          population: 5000,
+        endangeredLevel: "Low",
+          threatLevel: "Low",
+          funFact: "Bobcats are named for their short, bobbed tail."
         },
         {
-          species: "Bobcat",
-          location: "Central US",
-          latitude: 35,
-          longitude: -115.5
+         species: "Bobcat",
+        location: "Central US",
+        latitude: 35,
+        longitude: -115.5,
+        population: 5000,
+        endangeredLevel: "Low",
+        threatLevel: "Low",
+        funFact: "Bobcats are named for their short, bobbed tail."
         }
       ];
 
@@ -227,7 +241,33 @@
     attributes: wildcat,
     popupTemplate: {
       title: "{species}",
-      content: "Location: {location}"
+      content: [
+        {
+          type: "fields",
+          fieldInfos: [
+            {
+              fieldName: "location",
+              label: "Location"
+            },
+            {
+              fieldName: "population",
+              label: "Estimated Population"
+            },
+            {
+              fieldName: "endangeredLevel",
+              label: "Endangered Level"
+            },
+            {
+              fieldName: "threatLevel",
+              label: "Threat Level"
+            },
+            {
+              fieldName: "funFact",
+              label: "Fun Fact"
+            }
+          ]
+        }
+      ]
     }
   });
 
