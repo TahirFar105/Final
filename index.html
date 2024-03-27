@@ -129,13 +129,11 @@
         position: "top-left"
       });
 
-        const simpleMarkerSymbol = {
-          type: "simple-marker",
-          color: [226, 119, 40], // Orange color for the marker
-          outline: {
-            color: [255, 255, 255], // White outline
-            width: 1
-          }
+      const campusMarkerSymbol = {
+        type: "picture-marker",
+        url: "campus.png",
+         width: "32px",
+         height: "32px"
         };
 
         const lynxMarkerSymbol = {
@@ -161,6 +159,12 @@
 
       // Add the wildcat data to the map
 
+    const campusLocation = {
+    type: "point",
+    longitude: -82.3452,  // Longitude of Gainesville, Florida
+    latitude: 29.6516  // Latitude of Gainesville, Florida
+      }; 
+      
       const wildcats = [
         {
         species: "Lynx",
@@ -270,17 +274,36 @@
       ]
     }
   });
-
   graphicsLayer.add(pointGraphic);
 });
 
+const campusGraphic = new Graphic({
+  geometry: campusLocation,
+  symbol: campusMarkerSymbol,
+  attributes: {
+    name: "UF Campus",
+    location: "Gainesville, Florida"
+  },
+  popupTemplate: {
+    title: "{name}",
+    content: "Location: {location}"
+  }
+});
+
+graphicsLayer.add(campusGraphic);
+
+
 
       // Add legend
-      var legend = new Legend({
+    // Add legend
+    var legend = new Legend({
         view: view,
-        container: "legendDiv"
-      });
-
+        container: "legendDiv",
+        layerInfos: [{
+            layer: wildcatLayer,
+            title: "UF Campus"
+        }]
+    });
       // Add search widget
       var searchWidget = new Search({
         view: view,
