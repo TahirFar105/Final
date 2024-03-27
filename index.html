@@ -138,6 +138,26 @@
           }
         };
 
+        const lynxMarkerSymbol = {
+         type: "picture-marker",
+         url: "Lynx-PNG.png",
+         width: "64px",
+         height: "64px"
+      };
+
+        const pantherMarkerSymbol = {
+          type: "picture-marker",
+          url: "panther.jpeg",
+          width: "64px",
+          height: "64px"
+      };
+
+        const bobcatMarkerSymbol = {
+          type: "picture-marker",
+          url: "bobcat.png",
+          width: "64px",
+          height: "64px"
+      };
 
       // Add the wildcat data to the map
 
@@ -180,16 +200,30 @@
         }
       ];
 
-    wildcats.forEach(function(wildcat) { // Changed wildcatLocations to wildcats
-      const point = {
+
+      wildcats.forEach(function(wildcat) {
+        const point = {
         type: "point",
         longitude: wildcat.longitude,
         latitude: wildcat.latitude
   };
 
+  let symbol;
+  switch (wildcat.species) {
+    case "Lynx":
+      symbol = lynxMarkerSymbol;
+      break;
+    case "Florida Panther":
+      symbol = pantherMarkerSymbol;
+      break;
+    case "Bobcat":
+      symbol = bobcatMarkerSymbol;
+      break;
+  }
+
   const pointGraphic = new Graphic({
     geometry: point,
-    symbol: simpleMarkerSymbol,
+    symbol: symbol,
     attributes: wildcat,
     popupTemplate: {
       title: "{species}",
