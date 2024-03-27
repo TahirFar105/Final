@@ -69,8 +69,9 @@
   "esri/widgets/Legend",
   "esri/widgets/Search",
   "esri/widgets/BasemapToggle",
-  "esri/widgets/BasemapGallery"
-], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, FeatureLayer, Legend, Search, BasemapToggle, BasemapGallery) {
+  "esri/widgets/BasemapGallery",
+  "esri/widgets/LayerList" // Added LayerList module
+], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, FeatureLayer, Legend, Search, BasemapToggle, BasemapGallery, LayerList) { // Added LayerList to function parameters
       
       esriConfig.apiKey = "AAPK1c87127d5a0145b2ac638d800774df300U2ATjjIzTdh-RZndDHdofO0OQ7kIq6PdxclVHH3ODEcby6JAS-PSh-PJsIKazL8";
 
@@ -128,19 +129,6 @@
         position: "top-left"
       });
 
-      const wildcatLocations = [
-        { species: "Florida Panther", location: "Everglades National Park", longitude: 25.286616, latitude: -80.898651 },
-        { species: "Florida Panther", location: "Big Cypress National Preserve", longitude: 25.857596, latitude: -81.033620 },
-        { species: "Florida Panther", location: "Fakahatchee Strand Preserve State Park", longitude: 26.063253, latitude: -81.416313 },
-        { species: "Lynx", location: "Rocky Mountain National Park", longitude: 40.342793, latitude: -105.683639 },
-        { species: "Lynx", location: "Yellowstone National Park", longitude: 44.4280, latitude: -110.5885 },
-        { species: "Lynx", location: "Glacier National Park", longitude: 48.7596, latitude: -113.7870 },
-        { species: "Bobcat", location: "Great Smoky Mountains National Park", longitude: 35.6532, latitude: -83.5070 },
-        { species: "Bobcat", location: "Shenandoah National Park", longitude: 38.2928, latitude: -78.6795 },
-        { species: "Bobcat", location: "Cuyahoga Valley National Park", longitude: 41.2808, latitude: -81.5678 }
-        // Add all your locations here...
-      ];
-
         const simpleMarkerSymbol = {
           type: "simple-marker",
           color: [226, 119, 40], // Orange color for the marker
@@ -150,18 +138,50 @@
           }
         };
 
-        const pointGraphic = new Graphic({
-          geometry: point,
-          symbol: simpleMarkerSymbol,
-          attributes: wildcat,
-          popupTemplate: {
-            title: "{species}",
-            content: "Location: {location}"
-          }
-        });
 
-        graphicsLayer.add(pointGraphic);
-      });
+      // Add the wildcat data to the map
+
+      const wildcats = [
+        {
+          species: "Lynx",
+          location: "Northern US",
+          latitude: 47.5,
+          longitude: -120.5
+        },
+        {
+          species: "Florida Panther",
+          location: "Southern US",
+          latitude: 27.5,
+          longitude: -82.5
+        },
+        {
+          species: "Bobcat",
+          location: "Central US",
+          latitude: 37.5,
+          longitude: -95.5
+        }
+      ];
+
+    wildcats.forEach(function(wildcat) { // Changed wildcatLocations to wildcats
+      const point = {
+        type: "point",
+        longitude: wildcat.longitude,
+        latitude: wildcat.latitude
+  };
+
+  const pointGraphic = new Graphic({
+    geometry: point,
+    symbol: simpleMarkerSymbol,
+    attributes: wildcat,
+    popupTemplate: {
+      title: "{species}",
+      content: "Location: {location}"
+    }
+  });
+
+  graphicsLayer.add(pointGraphic);
+});
+
 
       // Add legend
       var legend = new Legend({
@@ -213,27 +233,7 @@
 
         wildcatLayer.definitionExpression = expressions.join(" OR ") || "1=1";
       }
-
-      // Search widget setup
-      var searchWidget = new Search({
-        view: view,
-        container: "searchBox" // Attaches the search widget to the input box
       });
-
-      // Search button functionality
-      document.getElementById("searchButton").addEventListener("click", function() {
-        searchWidget.search(document.getElementById("searchBox").value);
-      });
-
-      // Legend setup
-      var legend = new Legend({
-        view: view,
-        container: "legendDiv" // Specifies where to place the legend in the HTML
-      });
-
-      // Add the wildcat FeatureLayer to the map
-      map.add(wildcatLayer);
-
       // ... Any additional JavaScript and functions needed for your app ...
   </script>
 </body>
