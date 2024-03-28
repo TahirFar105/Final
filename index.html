@@ -29,32 +29,26 @@
   </style>
 </head>
 <body>
-  <div class="sidebar">
+<div class="sidebar">
     <div>
-      <label>
-        <input type="checkbox" id="lynxLayerCheckbox" checked>
-        Lynx
-      </label>
+        <img id="lynxImage" src="Lynx-PNG.png" width="32px" height="32px">
+        <label for="lynxImage">Lynx</label>
     </div>
     <div>
-      <label>
-        <input type="checkbox" id="pantherLayerCheckbox" checked>
-        Florida Panther
-      </label>
+        <img id="pantherImage" src="panther.png" width="32px" height="32px">
+        <label for="pantherImage">Florida Panther</label>
     </div>
     <div>
-      <label>
-        <input type="checkbox" id="bobcatLayerCheckbox" checked>
-        Bobcat
-      </label>
+        <img id="bobcatImage" src="bobcat(2).png" width="32px" height="32px">
+        <label for="bobcatImage">Bobcat</label>
     </div>
     <div>
-      <input type="text" id="searchBox" placeholder="Search for places" />
-      <button id="searchButton" class="esri-icon-search"></button>
+        <input type="text" id="searchBox" placeholder="Search for places" />
+        <button id="searchButton" class="esri-icon-search"></button>
     </div>
     <!-- The legend will be populated by the ArcGIS API based on map layers -->
     <div id="legendDiv"></div>
-  </div>
+</div>
 
   <div id="viewDiv"></div>
 
@@ -311,24 +305,17 @@ graphicsLayer.add(campusGraphic);
       });
 
       // Layer toggle functionality
-      document.getElementById("lynxLayerCheckbox").addEventListener("change", function(event) {
-        // Toggle the visibility of the lynx layer
-        // You will need to have defined this layer earlier in the code
-      });
+    document.getElementById("lynxImage").addEventListener("click", function(event) {
+        toggleLayerVisibility("Lynx");
+    });
 
-            // Layer toggle functionality
-            document.getElementById("lynxLayerCheckbox").addEventListener("change", function(event) {
-        toggleLayerVisibility(event.target.checked, "Lynx");
-      });
+    document.getElementById("pantherImage").addEventListener("click", function(event) {
+        toggleLayerVisibility("Florida Panther");
+    });
 
-      document.getElementById("pantherLayerCheckbox").addEventListener("change", function(event) {
-        toggleLayerVisibility(event.target.checked, "Florida Panther");
-      });
-
-      document.getElementById("bobcatLayerCheckbox").addEventListener("change", function(event) {
-        toggleLayerVisibility(event.target.checked, "Bobcat");
-      });
-
+    document.getElementById("bobcatImage").addEventListener("click", function(event) {
+        toggleLayerVisibility("Bobcat");
+    });
       // Define the toggleLayerVisibility function
       function toggleLayerVisibility(isChecked, species) {
         // Adjust the definitionExpression of the feature layer based on checkbox state
