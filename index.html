@@ -42,10 +42,6 @@
         <img id="bobcatImage" src="bobcat(2).png" width="32px" height="32px">
         <label for="bobcatImage">Bobcat</label>
     </div>
-    <div>
-        <input type="text" id="searchBox" placeholder="Search for places" />
-        <button id="searchButton" class="esri-icon-search"></button>
-    </div>
     <!-- The legend will be populated by the ArcGIS API based on map layers -->
     <div id="legendDiv"></div>
 </div>
@@ -114,15 +110,6 @@
         position: "top-right"
       });
 
-      // Layer list widget
-      var layerList = new LayerList({
-        view: view
-      });
-
-      view.ui.add(layerList, {
-        position: "top-left"
-      });
-
       const campusMarkerSymbol = {
         type: "picture-marker",
         url: "campus.png",
@@ -175,7 +162,7 @@
         location: "Southern US",
         latitude: 25.3,
         longitude: -81,
-        population: 120-130,
+        population: 125,
         endangeredLevel: "Critical",
         threatLevel: "High",
         funFact: "Florida Panthers are the only puma species found east of the Mississippi."
@@ -185,7 +172,7 @@
           location: "Central US",
           latitude: 25.3,
           longitude: -80.9,
-          population: 700000-1000000,
+          population: 850000,
           endangeredLevel: "Low",
           threatLevel: "Low",
           funFact: "Bobcats are named for their short, bobbed tail."
@@ -195,7 +182,7 @@
           location: "Central US",
           latitude: 32.7,
           longitude: -112.6,
-          population: 700000-1000000,
+          population: 850000,
         endangeredLevel: "Low",
           threatLevel: "Low",
           funFact: "Bobcats are named for their short, bobbed tail."
@@ -205,7 +192,7 @@
         location: "Central US",
         latitude: 35,
         longitude: -115.5,
-        population: 700000-1000000,
+        population: 850000,
         endangeredLevel: "Low",
         threatLevel: "Low",
         funFact: "Bobcats are named for their short, bobbed tail."
@@ -234,40 +221,25 @@
   }
 
   const pointGraphic = new Graphic({
-    geometry: point,
-    symbol: symbol,
-    attributes: wildcat,
-    popupTemplate: {
-      title: "{species}",
-      content: [
-        {
-          type: "fields",
-          fieldInfos: [
-            {
-              fieldName: "location",
-              label: "Location"
-            },
-            {
-              fieldName: "population",
-              label: "Estimated Population"
-            },
-            {
-              fieldName: "endangeredLevel",
-              label: "Endangered Level"
-            },
-            {
-              fieldName: "threatLevel",
-              label: "Threat Level"
-            },
-            {
-              fieldName: "funFact",
-              label: "Fun Fact"
-            }
-          ]
-        }
-      ]
-    }
-  });
+  geometry: point,
+  symbol: symbol,
+  attributes: wildcat,
+  popupTemplate: {
+    title: "{species}",
+    content: [
+      {
+        type: "text",
+        text: `
+          <div>Location: {location}</div>
+          <div>Estimated Population: {population}</div>
+          <div>Endangered Level: {endangeredLevel}</div>
+          <div>Threat Level: {threatLevel}</div>
+          <div>Fun Fact: {funFact}</div>
+        `
+      }
+    ]
+  }
+});
   graphicsLayer.add(pointGraphic);
 });
 
@@ -287,22 +259,12 @@ const campusGraphic = new Graphic({
 graphicsLayer.add(campusGraphic);
 
 
-
-      // Add legend
-    // Add legend
-    var legend = new Legend({
+    var searchWidget = new Search({
         view: view,
-        container: "legendDiv",
-        layerInfos: [{
-            layer: wildcatLayer,
-            title: "UF Campus"
-        }]
+        container: null // Set container to null
     });
-      // Add search widget
-      var searchWidget = new Search({
-        view: view,
-        container: "searchBox"
-      });
+
+    view.ui.add(searchWidget, "bottom-right"); // Add search widget to bottom right of the view
 
       // Layer toggle functionality
     document.getElementById("lynxImage").addEventListener("click", function(event) {
