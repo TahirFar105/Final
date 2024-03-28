@@ -26,6 +26,41 @@
     .esri-icon-search::before {
       content: '\e618';
     }
+    .modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
   </style>
 </head>
 <body>
@@ -42,6 +77,15 @@
         <img id="bobcatImage" src="bobcat(2).png" width="32px" height="32px">
         <label for="bobcatImage">Bobcat</label>
     </div>
+    <button id="aboutBtn">About</button>
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>About Endangered Paws</h2>
+          <p>"Endangered Paws" is a project dedicated to the conservation of America's wildcats. Through interactive maps and informative resources, we aim to raise awareness and support for the preservation of species such as the Florida Panther, Bobcat, and Lynx.</p>
+          <p>Learn how you can contribute to our conservation efforts and make a difference.</p>
+        </div>
+      </div>
     <!-- The legend will be populated by the ArcGIS API based on map layers -->
     <div id="legendDiv"></div>
 </div>
@@ -298,6 +342,25 @@ graphicsLayer.add(campusGraphic);
         wildcatLayer.definitionExpression = expressions.join(" OR ") || "1=1";
       }
       });
+      document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById("aboutModal");
+  var btn = document.getElementById("aboutBtn");
+  var span = document.getElementsByClassName("close")[0];
+
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+});
       // ... Any additional JavaScript and functions needed for your app ...
   </script>
 </body>
