@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Endangered Paws - Wildcats Map</title>
+  <title>Luxuary at Speed</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.25/"></script>
   <style>
@@ -65,30 +65,39 @@
 </head>
 <body>
 <div class="sidebar">
-    <div>
-        <img id="lynxImage" src="Lynx-PNG.png" width="32px" height="32px">
-        <label for="lynxImage">Lynx</label>
+  <div>
+    <img id="bugattiImage" src="Bugatti(2).png" width="32px" height="32px">
+    <label for="bugattiImage">Bugatti</label>
+  </div>
+  <div>
+    <img id="mclarenImage" src="McLaren.png" width="32px" height="32px">
+    <label for="mclarenImage">McLaren</label>
+  </div>
+  <div>
+    <img id="koenigseggImage" src="koenigsegg.png" width="32px" height="32px">
+    <label for="koenigseggImage">Koenigsegg</label>
+  </div>
+  <div>
+    <img id="paganiImage" src="pagani(2).png" width="32px" height="32px">
+    <label for="paganiImage">Pagani</label>
+  </div>
+  <div>
+    <img id="flagImage" src="Flag(3).webp" width="32px" height="32px">
+    <label for="flagImage">Flag</label>
+  </div>
+  <button id="aboutBtn">About</button>
+  <div id="aboutModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>About Luxury at Speed</h2>
+      <p>"Luxury at Spped" is a project dedicated to the appreciation of the world's most powerful and beautiful cars. Through interactive maps and informative resources, we aim to raise awareness and support for the preservation of brands such as Bugatti, McLaren, Koenigsegg, and Pagani.</p>
+      <p>Learn how you can contribute to our appreciation efforts and make a difference.</p>
     </div>
-    <div>
-        <img id="pantherImage" src="panther.png" width="32px" height="32px">
-        <label for="pantherImage">Florida Panther</label>
-    </div>
-    <div>
-        <img id="bobcatImage" src="bobcat(2).png" width="32px" height="32px">
-        <label for="bobcatImage">Bobcat</label>
-    </div>
-    <button id="aboutBtn">About</button>
-    <div id="aboutModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2>About Endangered Paws</h2>
-          <p>"Endangered Paws" is a project dedicated to the conservation of America's wildcats. Through interactive maps and informative resources, we aim to raise awareness and support for the preservation of species such as the Florida Panther, Bobcat, and Lynx.</p>
-          <p>Learn how you can contribute to our conservation efforts and make a difference.</p>
-        </div>
-      </div>
-    <!-- The legend will be populated by the ArcGIS API based on map layers -->
-    <div id="legendDiv"></div>
+  </div>
+  <!-- The legend will be populated by the ArcGIS API based on map layers -->
+  <div id="legendDiv"></div>
 </div>
+<div id="viewDiv"></div>
 
   <div id="viewDiv"></div>
 
