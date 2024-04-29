@@ -139,7 +139,41 @@
           // Customize your popup template
         }
       });
-      // ...existing code...
+    
+      const bugattiMarkerSymbol = {
+    type: "picture-marker",
+    url: "Bugatti(2).png",
+    width: "32px",
+    height: "32px"
+  };
+
+  const mclarenMarkerSymbol = {
+    type: "picture-marker",
+    url: "McLaren.png",
+    width: "32px",
+    height: "32px"
+  };
+
+  const koenigseggMarkerSymbol = {
+    type: "picture-marker",
+    url: "koenigsegg.png",
+    width: "32px",
+    height: "32px"
+  };
+
+  const paganiMarkerSymbol = {
+    type: "picture-marker",
+    url: "pagani(2).png",
+    width: "32px",
+    height: "32px"
+  };
+
+  const flagMarkerSymbol = {
+    type: "picture-marker",
+    url: "Flag(3).webp",
+    width: "32px",
+    height: "32px"
+  };
 
       map.add(luxurycarLayer);
 
@@ -153,33 +187,53 @@
       const cars = [
         {
           brand: "Bugatti",
-          location: "France",
-          latitude: 48.8566,
-          longitude: 2.3522,
+          location: "Miami Florida",
+          latitude: 25.7617,
+          longitude: -80.1918,
+          topSpeed: "304.77 mph",
+          horsepower: "1500 HP",
+          acceleration: "2.4 seconds",
+          funFact: "The Bugatti Veyron could reach its top speed in less than a minute."
         },
         {
           brand: "McLaren",
-          location: "UK",
+          location: "Dallas, Texas",
           latitude: 51.5074,
           longitude: -0.1278,
+          topSpeed: "218 mph",
+          horsepower: "710 HP",
+          acceleration: "2.9 seconds",
+          funFact: "The McLaren F1 was the fastest car in the world for over a decade."
         },
         {
           brand: "Koenigsegg",
-          location: "Sweden",
-          latitude: 60.1282,
-          longitude: 18.6435,
+          location: "New York City, New York",
+          latitude: 40.7128,
+          longitude: 74.0060,
+          topSpeed: "278 mph",
+          horsepower: "1160 HP",
+          acceleration: "2.8 seconds",
+          funFact: "The Koenigsegg Jesko Absolut is said to be capable of reaching 330 mph."
         },
         {
           brand: "Pagani",
-          location: "Italy",
-          latitude: 41.9028,
-          longitude: 12.4964,
+          location: "Greenwhich, Conneticut",
+          latitude: 41.0262,
+          longitude: 73.6282,
+          topSpeed: "238 mph",
+          horsepower: "764 HP",
+          acceleration: "2.8 seconds",
+          funFact: "The Pagani Huayra is named after the Incan God of Winds, Huayra-tata."
         },
         {
           brand: "Flag",
-          location: "Unknown",
+          location: "United States",
           latitude: 0,
           longitude: 0,
+          topSpeed: "Unknown",
+          horsepower: "Unknown",
+          acceleration: "Unknown",
+          funFact: "Unknown"
         },
       ];
 
@@ -210,25 +264,25 @@
         }
 
   const pointGraphic = new Graphic({
-  geometry: point,
-  symbol: symbol,
-  attributes: wildcat,
-  popupTemplate: {
-    title: "{Fast Luxury Cars}",
-    content: [
-      {
-        type: "text",
-        text: `
-          <div>Location: {location}</div>
-          <div>Estimated Population: {population}</div>
-          <div>Endangered Level: {endangeredLevel}</div>
-          <div>Threat Level: {threatLevel}</div>
-          <div>Fun Fact: {funFact}</div>
-        `
-      }
-    ]
-  }
-});
+    geometry: point,
+    symbol: symbol,
+    attributes: car,
+    popupTemplate: {
+      title: "{brand}",
+      content: [
+        {
+          type: "text",
+          text: `
+            <div>Location: {location}</div>
+            <div>Top Speed: {topSpeed}</div>
+            <div>Horsepower: {horsepower}</div>
+            <div>Acceleration: {acceleration}</div>
+            <div>Fun Fact: {funFact}</div>
+          `
+        }
+      ]
+    }
+  });
   graphicsLayer.add(pointGraphic);
 });
 
