@@ -297,13 +297,12 @@
         },
         {
           brand: "Flag",
-          location: "United States",
-          latitude: 0,
-          longitude: 0,
-          topSpeed: "Unknown",
-          horsepower: "Unknown",
-          acceleration: "Unknown",
-          funFact: "Unknown"
+          trackName: "Daytona Interntional Speedway", // Replace with actual track name
+          location: "Daytona, Florida", // Replace with actual location
+          trackLane: "2.5 Miles", // Replace with actual track lane
+          trackType: "Tri Oval Speedway", // Replace with actual track type
+          latitude: 29.8152, // Replace with actual latitude
+          longitude: -81.0705, // Replace with actual longitude
         },
       ];
 
@@ -339,7 +338,17 @@
     attributes: car,
     popupTemplate: {
       title: "{brand}",
-      content: [
+      content: car.brand === "Flag" ? [
+        {
+          type: "text",
+          text: `
+            <div>Track Name: {trackName}</div>
+            <div>Location: {location}</div>
+            <div>Track Lane: {trackLane}</div>
+            <div>Track Type: {trackType}</div>
+          `
+        }
+      ] : [
         {
           type: "text",
           text: `
@@ -355,22 +364,6 @@
   });
   graphicsLayer.add(pointGraphic);
 });
-
-const campusGraphic = new Graphic({
-  geometry: campusLocation,
-  symbol: campusMarkerSymbol,
-  attributes: {
-    name: "UF Campus",
-    location: "Gainesville, Florida"
-  },
-  popupTemplate: {
-    title: "{name}",
-    content: "Location: {location}"
-  }
-});
-
-graphicsLayer.add(campusGraphic);
-
 
     var searchWidget = new Search({
         view: view,
