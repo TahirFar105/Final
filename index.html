@@ -90,8 +90,8 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>About Luxury at Speed</h2>
-      <p>"Luxury at Spped" is a project dedicated to the appreciation of the world's most powerful and beautiful cars. Through interactive maps and informative resources, we aim to raise awareness and support for the preservation of brands such as Bugatti, McLaren, Koenigsegg, and Pagani.</p>
-      <p>Learn how you can contribute to our appreciation efforts and make a difference.</p>
+      <p>This project provides a comprehensive mapping and analysis tool focused on luxury car brands and their associated locations at prestigious speed tracks across the United States. It includes detailed geographical data for high-end automotive brands such as Bugatti, Koenigsegg, McLaren, and Pagani, along with key race tracks where high-speed automotive events occur. The project utilizes advanced geospatial analysis to pinpoint exact locations, offering enthusiasts, researchers, and industry stakeholders insights into the intersection of luxury automotive presence and racing culture in the U.S. The application not only maps these locations but also provides tools for analyzing proximity, accessibility, and the distribution of these high-value assets across the nation.</p>
+      <p>Test Drive your Luxury Vehicle Today! </p>
     </div>
   </div>
   <!-- The legend will be populated by the ArcGIS API based on map layers -->
@@ -132,7 +132,7 @@
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
-      const wildcatLayer = new FeatureLayer({
+      const luxurycarLayer = new FeatureLayer({
         url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Wildcat_Miderm/FeatureServer", // Replace with your actual feature layer URL
         outFields: ["*"], // Adjust based on your actual fields
         popupTemplate: {
@@ -141,7 +141,7 @@
       });
       // ...existing code...
 
-      map.add(wildcatLayer);
+      map.add(luxurycarLayer);
 
       var basemapToggle = new BasemapToggle({
         view: view,
@@ -150,135 +150,71 @@
 
       view.ui.add(basemapToggle, "bottom-right");
 
-      var basemapGallery = new BasemapGallery({
-        view: view,
-        source: {
-          query: {
-            title: '"World Basemaps for Developers" AND owner:esri'
-          }
-        }
-      });
-
-      view.ui.add(basemapGallery, {
-        position: "top-right"
-      });
-
-      const campusMarkerSymbol = {
-        type: "picture-marker",
-        url: "campus.png",
-         width: "32px",
-         height: "32px"
-        };
-
-        const lynxMarkerSymbol = {
-         type: "picture-marker",
-         url: "Lynx-PNG.png",
-         width: "32px",
-         height: "32px"
-      };
-
-        const pantherMarkerSymbol = {
-          type: "picture-marker",
-          url: "panther.png",
-          width: "32px",
-          height: "32px"
-      };
-
-        const bobcatMarkerSymbol = {
-          type: "picture-marker",
-          url: "bobcat(2).png",
-          width: "32px",
-          height: "32px"
-      };
-
-      // Add the wildcat data to the map
-
-    const campusLocation = {
-    type: "point",
-    longitude: -82.3452,  // Longitude of Gainesville, Florida
-    latitude: 29.6516  // Latitude of Gainesville, Florida
-      }; 
-      
-      const wildcats = [
+      const cars = [
         {
-        species: "Lynx",
-        location: "Northern US",
-        latitude: 48.6,
-        longitude: -119.7,
-        population: 2000-10000, // Add your data here
-        endangeredLevel: "High", // Add your data here
-        threatLevel: "Severe", // Add your data here
-        funFact: "Lynx are excellent climbers." // Add your data here
+          brand: "Bugatti",
+          location: "France",
+          latitude: 48.8566,
+          longitude: 2.3522,
         },
         {
-        species: "Florida Panther",
-        location: "Southern US",
-        latitude: 25.3,
-        longitude: -81,
-        population: 125,
-        endangeredLevel: "Critical",
-        threatLevel: "High",
-        funFact: "Florida Panthers are the only puma species found east of the Mississippi."
+          brand: "McLaren",
+          location: "UK",
+          latitude: 51.5074,
+          longitude: -0.1278,
         },
         {
-          species: "Bobcat",
-          location: "Central US",
-          latitude: 25.3,
-          longitude: -80.9,
-          population: 850000,
-          endangeredLevel: "Low",
-          threatLevel: "Low",
-          funFact: "Bobcats are named for their short, bobbed tail."
+          brand: "Koenigsegg",
+          location: "Sweden",
+          latitude: 60.1282,
+          longitude: 18.6435,
         },
         {
-          species: "Bobcat",
-          location: "Central US",
-          latitude: 32.7,
-          longitude: -112.6,
-          population: 850000,
-        endangeredLevel: "Low",
-          threatLevel: "Low",
-          funFact: "Bobcats are named for their short, bobbed tail."
+          brand: "Pagani",
+          location: "Italy",
+          latitude: 41.9028,
+          longitude: 12.4964,
         },
         {
-         species: "Bobcat",
-        location: "Central US",
-        latitude: 35,
-        longitude: -115.5,
-        population: 850000,
-        endangeredLevel: "Low",
-        threatLevel: "Low",
-        funFact: "Bobcats are named for their short, bobbed tail."
-        }
+          brand: "Flag",
+          location: "Unknown",
+          latitude: 0,
+          longitude: 0,
+        },
       ];
 
-
-      wildcats.forEach(function(wildcat) {
+      cars.forEach(function(car) {
         const point = {
-        type: "point",
-        longitude: wildcat.longitude,
-        latitude: wildcat.latitude
-  };
+          type: "point",
+          longitude: car.longitude,
+          latitude: car.latitude
+        };
 
-  let symbol;
-  switch (wildcat.species) {
-    case "Lynx":
-      symbol = lynxMarkerSymbol;
-      break;
-    case "Florida Panther":
-      symbol = pantherMarkerSymbol;
-      break;
-    case "Bobcat":
-      symbol = bobcatMarkerSymbol;
-      break;
-  }
+        let symbol;
+        switch (car.brand) {
+          case "Bugatti":
+            symbol = bugattiMarkerSymbol;
+            break;
+          case "McLaren":
+            symbol = mclarenMarkerSymbol;
+            break;
+          case "Koenigsegg":
+            symbol = koenigseggMarkerSymbol;
+            break;
+          case "Pagani":
+            symbol = paganiMarkerSymbol;
+            break;
+          case "Flag":
+            symbol = flagMarkerSymbol;
+            break;
+        }
 
   const pointGraphic = new Graphic({
   geometry: point,
   symbol: symbol,
   attributes: wildcat,
   popupTemplate: {
-    title: "{species}",
+    title: "{Fast Luxury Cars}",
     content: [
       {
         type: "text",
